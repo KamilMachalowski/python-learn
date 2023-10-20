@@ -5,33 +5,43 @@ while True:
         case "add":
             todo = input("Enter a todo: ") + "\n"
 
-            file = open("readwrite.txt", "r")
-            todos = file.readlines()
-            file.close()
+            with open("readwrite.txt", "r") as file:
+                todos = file.readlines()
 
             todos.append(todo)
 
-            file = open("readwrite.txt", "w")
-            file.writelines(todos)
-            file.close()
+            with open("readwrite.txt", "w") as file:
+                file.writelines(todos)
+
         case "show":
-            file = open("readwrite.txt", "r")
-            todos = file.readlines()
-            file.close()
+            with open("readwrite.txt", "r") as file:
+                todos = file.readlines()
 
-            # todos_without_space = [item.strip("\n") for item in todos]
-
-            # for index, item in enumerate(todos_without_space):
             for index, item in enumerate(todos):
                 item = item.strip("\n")
                 print(f"{index + 1}. {item}")
         case "edit":
             number_of_todo = int(input("Number of todo to edit: ")) - 1
-            todos[number_of_todo] = input("Enter new todo: ")
+
+            with open("readwrite.txt", "r") as file:
+                todos = file.readlines()
+
+            todos[number_of_todo] = input("Enter new todo: ") + "\n"
+
+            with open("readwrite.txt", "w") as file:
+                file.writelines(todos)
         case "complete":
             number_of_todo = int(input("Number of todo to complete: ")) - 1
-            removed_element = todos.pop(number_of_todo)
-            print(f"Todo {removed_element} completed!")
+
+            with open("readwrite.txt", "r") as file:
+                todos = file.readlines()
+
+            removed_element = todos.pop(number_of_todo).strip('\n')
+
+            with open("readwrite.txt", "w") as file:
+                file.writelines(todos)
+
+            print(f"Successfully removed: {removed_element}")
         case "exit":
             break
 
