@@ -1,7 +1,7 @@
 while True:
     user_action = input("Type add [text], show, edit [number], complete [number] or exit: ").strip()
 
-    if "add" in user_action:
+    if user_action.startswith("add"):
         todo = user_action[4:] + "\n"
 
         with open("readwrite.txt", "r") as file:
@@ -12,7 +12,7 @@ while True:
         with open("readwrite.txt", "w") as file:
             file.writelines(todos)
 
-    elif "show" in user_action:
+    elif user_action.startswith("show"):
         with open("readwrite.txt", "r") as file:
             todos = file.readlines()
 
@@ -20,7 +20,7 @@ while True:
             item = item.strip("\n")
             print(f"{index + 1}. {item}")
 
-    elif "edit" in user_action:
+    elif user_action.startswith("edit"):
         number_of_todo = int(user_action[5:]) - 1
 
         with open("readwrite.txt", "r") as file:
@@ -31,7 +31,7 @@ while True:
         with open("readwrite.txt", "w") as file:
             file.writelines(todos)
 
-    elif "complete" in user_action:
+    elif user_action.startswith("complete"):
         number_of_todo = int(user_action[8:]) - 1
 
         with open("readwrite.txt", "r") as file:
@@ -44,7 +44,7 @@ while True:
 
         print(f"Successfully removed: {removed_element}")
 
-    elif "exit" in user_action:
+    elif user_action.startswith("exit"):
         break
 
     else:
