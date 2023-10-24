@@ -1,20 +1,28 @@
+def get_todos(filepath="readwrite.txt"):
+    with open(filepath, "r") as file:
+        todos_list = file.readlines()
+    return todos_list
+
+
+def write_todos(todos_arg, filepath="readwrite.txt"):
+    with open(filepath, "w") as file:
+        file.writelines(todos_arg)
+
+
 while True:
     user_action = input("Type add [text], show, edit [number], complete [number] or exit: ").strip()
 
     if user_action.startswith("add"):
         todo = user_action[4:] + "\n"
 
-        with open("readwrite.txt", "r") as file:
-            todos = file.readlines()
+        todos = get_todos()
 
         todos.append(todo)
 
-        with open("readwrite.txt", "w") as file:
-            file.writelines(todos)
+        write_todos(todos)
 
     elif user_action.startswith("show"):
-        with open("readwrite.txt", "r") as file:
-            todos = file.readlines()
+        todos = get_todos()
 
         for index, item in enumerate(todos):
             item = item.strip("\n")
@@ -24,13 +32,11 @@ while True:
         try:
             number_of_todo = int(user_action[5:]) - 1
 
-            with open("readwrite.txt", "r") as file:
-                todos = file.readlines()
+            todos = get_todos()
 
             todos[number_of_todo] = input("Enter new todo: ") + "\n"
 
-            with open("readwrite.txt", "w") as file:
-                file.writelines(todos)
+            write_todos(todos)
         except ValueError:
             print("Your command is not valid")
             continue
@@ -39,13 +45,11 @@ while True:
         try:
             number_of_todo = int(user_action[8:]) - 1
 
-            with open("readwrite.txt", "r") as file:
-                todos = file.readlines()
+            todos = get_todos()
 
             removed_element = todos.pop(number_of_todo).strip('\n')
 
-            with open("readwrite.txt", "w") as file:
-                file.writelines(todos)
+            write_todos(todos)
 
             print(f"Successfully removed: {removed_element}")
         except IndexError:
