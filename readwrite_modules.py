@@ -1,4 +1,7 @@
-def get_todos(filepath="readwrite.txt"):
+FILE_PATH = "readwrite.txt"
+
+
+def get_todos(filepath=FILE_PATH):
     """
     Read the text file and
     return the list of to-do items
@@ -8,7 +11,7 @@ def get_todos(filepath="readwrite.txt"):
     return todos_list
 
 
-def write_todos(todos_arg, filepath="readwrite.txt"):
+def write_todos(todos_arg, filepath=FILE_PATH):
     """
     Write the to-do items list in the file.
     :param todos_arg: list with to-do
