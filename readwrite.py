@@ -1,4 +1,8 @@
 import readwrite_modules
+import time
+
+now = time.strftime("%b %d, %Y %H %H:%M:%S")
+print('now time ', now)
 
 while True:
     user_action = input("Type add [text], show, edit [number], complete [number] or exit: ").strip()
