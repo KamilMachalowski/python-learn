@@ -5,3 +5,4 @@ na imie
 cos na koniec
 show
 kolejny
+Master Python
