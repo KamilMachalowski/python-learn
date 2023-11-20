@@ -1,6 +1,10 @@
 import todoApps_modules as tdm
 import PySimpleGUI as sg
+import time
 
+sg.theme("Black")
+
+clock = sg.Text('', key="clock")
 label = sg.Text("Type in a to-do")
 input_box = sg.InputText(tooltip="Enter todo", key="todo")
 add_button = sg.Button("Add")
@@ -10,6 +14,7 @@ complete_button = sg.Button("Complete")
 exit_button = sg.Button("Exit")
 
 layout = [
+    [clock],
     [label],
     [input_box, add_button],
     [list_box, edit_button, complete_button],
@@ -21,7 +26,8 @@ window = sg.Window("My TODO APP",
                    font=('Helvetica', 20))
 
 while True:
-    event, values = window.read()
+    event, values = window.read(timeout=999)
+    window["clock"].update(value=time.strftime("%b %d, %Y %H:%M:%S"))
     print(event)
     print(values)
 
@@ -33,22 +39,28 @@ while True:
             tdm.write_todos(todos)
             window['todos'].update(values=todos)
         case "Edit":
-            todo_to_edit = values["todos"][0]
-            new_todo = values["todo"]
+            try:
+                todo_to_edit = values["todos"][0]
+                new_todo = values["todo"]
 
-            todos = tdm.get_todos()
-            index = todos.index(todo_to_edit)
-            todos[index] = new_todo + "\n"
-            tdm.write_todos(todos)
-            window['todos'].update(values=todos)
+                todos = tdm.get_todos()
+                index = todos.index(todo_to_edit)
+                todos[index] = new_todo + "\n"
+                tdm.write_todos(todos)
+                window['todos'].update(values=todos)
+            except IndexError:
+                sg.popup("Please select an item first", font=("Helvetica", 20))
         case "Complete":
-            todo_to_complete = values['todos'][0]
-            todos = tdm.get_todos()
-            todos.remove(todo_to_complete)
+            try:
+                todo_to_complete = values['todos'][0]
+                todos = tdm.get_todos()
+                todos.remove(todo_to_complete)
 
-            tdm.write_todos(todos)
-            window['todos'].update(values=todos)
-            window['todo'].update(value="")
+                tdm.write_todos(todos)
+                window['todos'].update(values=todos)
+                window['todo'].update(value="")
+            except IndexError:
+                sg.popup("Please select an item first", font=("Helvetica", 20))
         case "Exit":
             break
         case "todos":
